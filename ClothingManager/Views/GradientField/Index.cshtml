@@ -1,0 +1,95 @@
+﻿@model IEnumerable<GradientItemViewModel>;
+
+@{
+    ViewData["Title"] = "Gradient Field";
+    var menuItems = new List<Tuple<string, string>> { Tuple.Create("filterModal", "Filter") };
+    ViewData["menu-items"] = menuItems;
+}
+
+@section OutsideContainer{
+    <div class="container border gradient-field-viewport" style="overflow:scroll;width:auto;height:100%;">
+        <div class="gradient-field d-inline-block position-relative" style="width:@(ViewBag.width)px;height:@(ViewBag.height)px;">
+            @foreach (var item in Model)
+            {
+                <div class="position-absolute rounded-circle gradient-item" data-position-x="@item.Position.Item1" data-position-y="@item.Position.Item2" data-position-z="@item.Position.Item3"
+                     style="width:@(ViewBag.ItemSize)px;border:5px solid @System.Drawing.ColorTranslator.ToHtml(item.Clothing.Color);">
+
+
+                    <a data-clothing-id="@item.Clothing.ID" class="d-block w-100 h-100 btn p-0 m-0 rounded-circle gradient-item-button">
+                        @if (item.Clothing.ImagePath != null)
+                        {
+                            <img src="~/uploads/@("circle_"+item.Clothing.ImagePath)" alt="@Html.DisplayFor(modelItem => item.Clothing.Name)" class="img-fluid rounded-circle" />
+                        }
+                        else
+                        {
+                            <img src="~/images/baseline-photo.png" alt="No image" class="img-fluid rounded-circle bg-white" />
+                        }
+                    </a>
+                </div>
+            }
+        </div>
+        <script>
+        let scaleGradient = @ViewBag.scale;
+        </script>
+    </div>
+}
+@section Modals{
+    <div class="modal fade" id="clothingDetailsModal" tabindex="-1" role="dialog" aria-labelledby="clothingDetailsModalTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content" id="modal-gradient-content">
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <button onclick="location.href='@Url.Action("Create", "Clothings")';" type="button" class="btn btn-primary bmd-btn-fab position-fixed" style="right:24px;bottom:25px;z-index:2000">
+        <i class="material-icons">add</i>
+    </button>
+
+    <form asp-action="Index" method="get">
+
+        <div class="modal fade" id="filterModal" tabindex="-1" role="dialog" aria-labelledby="filterModalTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="filterModalTitle">Filter:</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        @await Html.PartialAsync("_ClothingTagFormPartial", (IEnumerable<TagValue>)ViewData["tags"])
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <input type="submit" value="Filter" class="btn btn-primary" />
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </form>
+}
+
+@section Scripts {
+    <script>
+        positionGradientField(true);
+        (function () {
+            $('.gradient-item-button').each(function (index) {
+                this.addEventListener('click', function (ev) {
+                    let clothingId = this.getAttribute('data-clothing-id');
+                    $.ajax({
+                        url: ("@(Url.Action("Details", "GradientField"))" + "/" + clothingId), success: function (result) {
+                            $('.remove-on-new-modal').remove();
+                            $('#modal-gradient-content').prepend(result);
+                            $('#clothingDetailsModal.modal').modal('show');
+                            addAddOutfitClothingListeners();
+                        }
+                    });
+                });
+            });
+        })();
+    </script>
+}
+

@@ -1,0 +1,83 @@
+﻿@model IEnumerable<ClothingManager.Models.TagValue>
+
+@{
+    if (Model != null)
+    {
+        foreach (var item in Model)
+        {
+            (ViewBag.TagKeys as List<string>).Remove(item.TagKey.Key);
+        }
+    }
+}
+
+<div>
+    <strong>Tags</strong>
+</div>
+<table class="table extendable-table">
+    <tbody>
+        <tr class="d-none">
+            <td>
+                <fieldset class="form-group pt-0 mb-0">
+                    <label for="tagkey" class="label-placeholder d-none">Key</label>
+                    @*
+        <input class="form-control" type="text" name="tagkey" id="tagkey" autocomplete="off"/>
+                    *@
+                    <select class="form-control editable-select" id="tagkey" name="tagkey" autocomplete="off" placeholder="Key">
+                        @foreach (var key in ViewBag.TagKeys as IEnumerable<string>)
+                        {
+                            <option>@key</option>
+                        }
+                    </select>
+                </fieldset>
+            </td>
+            <td>
+                <fieldset class="form-group pt-0 mb-0">
+                    <label for="tagvalue" class="label-placeholder d-none">Value</label>
+                    @*
+        <input class="form-control" type="text" name="tagvalue" id="tagvalue" autocomplete="off" />
+                    *@
+                    <select class="form-control editable-select select-tag-values" id="tagvalue" name="tagvalue" autocomplete="off" placeholder="Value">
+                        <option></option>
+                    </select>
+                </fieldset>
+            </td>
+        </tr>
+        @if (Model != null)
+        {
+            int itemNumber = 1;
+            foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        <fieldset class="form-group pt-0 mb-0">
+                            <label for="tagkey@(itemNumber)" class="label-placeholder d-none">Key</label>
+                            @*
+                <input class="form-control" type="text" name="tagkey" id="tagkey" autocomplete="off"/>
+                            *@
+                            <select class="form-control editable-select" id="tagkey@(itemNumber)" name="tagkey@(itemNumber)" value="@(item.TagKey.Key)" autocomplete="off" placeholder="Key">
+                                @foreach (var key in ViewBag.TagKeys as IEnumerable<string>)
+                                {
+                                    <option>@key</option>
+                                }
+                            </select>
+
+                        </fieldset>
+                    </td>
+                    <td>
+                        <fieldset class="form-group pt-0 mb-0">
+                            <label for="tagvalue@(itemNumber)" class="label-placeholder d-none">Value</label>
+                            @*
+                <input class="form-control" type="text" name="tagvalue" id="tagvalue" autocomplete="off" />
+                            *@
+                            <select class="form-control editable-select select-tag-values" id="tagvalue@(itemNumber)" name="tagvalue@(itemNumber)" value="@(item.Value)" autocomplete="off" placeholder="Value">
+                                <option>Value</option>
+                            </select>
+                        </fieldset>
+                    </td>
+                </tr>
+                itemNumber++;
+            }
+        }
+    </tbody>
+</table>
+<button type="button" class="btn btn-primary expand-table">More</button>

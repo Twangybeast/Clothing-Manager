@@ -1,0 +1,27 @@
+﻿@model ClothingManager.Models.Clothing
+
+@if (Model.TagValues.Count() > 0)
+{
+    <div>
+        <strong>@Html.DisplayNameFor(model => model.TagValues)</strong>
+    </div>
+    <dd>
+        <table class="table">
+            <tr>
+                <th>Tag Key</th>
+                <th>Tag Value</th>
+            </tr>
+            @foreach (var item in Model.TagValues)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TagKey.Key)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Value)
+                    </td>
+                </tr>
+            }
+        </table>
+    </dd>
+}

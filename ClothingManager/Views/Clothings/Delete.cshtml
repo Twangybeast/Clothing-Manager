@@ -1,0 +1,36 @@
+﻿@model ClothingManager.Models.Clothing
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>@Html.DisplayFor(model => model.Name)</h4>
+    <hr />
+    <div class="row">
+        <div class="col-12">
+            <strong>@Html.DisplayNameFor(model => model.Argb)</strong>
+        </div>
+        <div class="col-12 p-2">
+            <div class="text-center" style="background-color:@(System.Drawing.ColorTranslator.ToHtml(Model.Color));width: 100%;height:100%">
+                @Model.Argb.ToString("X6")
+            </div>
+        </div>
+        @if (Model.ImagePath != null)
+        {
+            <div class="col-12">
+                <img src="~/uploads/@(Model.ImagePath)" alt="@Html.DisplayFor(model => model.Name)" class="img-fluid" />
+            </div>
+        }
+        <div class="col-12">
+            @await Html.PartialAsync("_ClothingTagsPartial", Model)
+        </div>
+    </div>
+
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="ID" />
+        <input type="submit" value="Delete" class="btn btn-default" /> |
+        <a asp-action="Index">Back to List</a>
+    </form>
+</div>

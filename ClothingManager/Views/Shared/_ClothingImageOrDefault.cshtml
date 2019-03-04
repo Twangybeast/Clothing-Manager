@@ -1,0 +1,10 @@
+﻿@model Clothing
+
+@if (Model.ImagePath != null)
+{
+    <img src="~/uploads/@(Model.ImagePath)" alt="@Html.DisplayFor(item => item.Name)" class="img-fluid" />
+}
+else
+{
+    <img src="~/images/baseline-photo.png" alt="No image" class="img-fluid" />
+}

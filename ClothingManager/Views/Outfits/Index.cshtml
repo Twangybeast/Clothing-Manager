@@ -1,0 +1,32 @@
+﻿@model IEnumerable<ClothingManager.Models.Outfit>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Outfits/Sets List</h2>
+
+<ul class="list-unstyled">
+    @foreach (var item in Model)
+    {
+        <li class="pb-3">
+            <div class="row justify-content-around pr-3 pb-2 align-items-end h-100">
+                <div class="col-12 align-self-start">
+                    <a asp-action="Details" asp-route-id="@item.ID" class="text-dark">
+                        <h5 class="mt-0 mb-1">@Html.DisplayFor(modelItem => item.Name)</h5>
+                    </a>
+                </div>
+                <div class="col-auto">
+                    <a href="#" onclick="editOutfit(@item.ID)">
+                        <i class="material-icons">edit</i>
+                    </a>
+                </div>
+                <div class="col=auto">
+                    <a asp-action="Delete" asp-route-id="@item.ID">
+                        <i class="material-icons">delete</i>
+                    </a>
+                </div>
+            </div>
+        </li>
+    }
+</ul>

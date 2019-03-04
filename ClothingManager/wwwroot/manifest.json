@@ -1,0 +1,21 @@
+{
+    "dir": "ltr",
+    "lang": "en",
+    "name": "Clothing",
+    "scope": "/Clothings",
+    "display": "standalone",
+    "start_url": "https://98.225.1.35/Clothings",
+    "short_name": "Clothing Manager",
+    "theme_color": "transparent",
+    "description": "",
+    "orientation": "any",
+    "background_color": "transparent",
+    "related_applications": [],
+    "prefer_related_applications": false,
+    "icons": [
+        {
+            "src": "/images/favicon.ico",
+            "sizes": "16x16 32x32 48x48 64x64"
+        }
+    ]
+}

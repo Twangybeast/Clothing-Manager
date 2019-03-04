@@ -1,0 +1,56 @@
+﻿@model ClothingManager.Models.Clothing
+
+@{
+    ViewData["Title"] = "Edit";
+    var autocolor = false;
+}
+
+<h2>Edit Clothing</h2>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Name" class="bmd-label-floating"></label>
+                <input asp-for="Name" class="form-control" autocomplete="off"/>
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Argb" class="bmd-label-static"></label>
+                <input name="Argb" class="form-control jscolor" value="@Model.Argb.ToString("x6")" />
+            </div>
+            <div class="checkbox">
+                <label>
+                    <input asp-for="@autocolor" class="form-control" />
+                    Use color from image?
+                </label>
+            </div>
+            <div class="form-group">
+                <label for="inputImage" class="bmd-label-floating">Image</label>
+                <input name="image" type="file" class="form-control-file" accept="image/*" id="inputImage"/>
+            </div>
+            @if (Model.ImagePath != null)
+            {
+                <img src="~/uploads/@(Model.ImagePath)" alt="@Html.DisplayFor(model => model.Name)" class="img-fluid"/>
+            }
+
+            @await Html.PartialAsync("_ClothingTagFormPartial", Model.TagValues)
+
+
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+

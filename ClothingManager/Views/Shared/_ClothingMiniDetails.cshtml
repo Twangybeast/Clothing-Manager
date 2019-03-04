@@ -1,0 +1,40 @@
+﻿@model Clothing
+
+<div class="row">
+    <div class="col-4 rounded">
+        <a asp-action="Details" asp-controller="Clothings" asp-route-id="@Model.ID" class="d-block w-100 h-100 btn p-0 m-0">
+            @await Html.PartialAsync("_ClothingImageOrDefault", Model)
+        </a>
+    </div>
+    <div class="col">
+        <div class="row h-100">
+            <div class="col-auto p-1" style="background-color:@System.Drawing.ColorTranslator.ToHtml(Model.Color)">
+
+            </div>
+            <div class="col">
+                <div class="row justify-content-around pr-3 pb-2 align-items-end h-100">
+                    <div class="col-12 align-self-start">
+                        <a asp-action="Details" asp-controller="Clothings" asp-route-id="@Model.ID" class="text-dark">
+                            <h5 class="mt-0 mb-1">@Html.DisplayFor(modelItem => Model.Name)</h5>
+                        </a>
+                    </div>
+                    <div class="col-auto">
+                        <a class="col-auto add-outfit-clothing" href="#" data-clothing-id="@Model.ID">
+                            <i class="material-icons">add_box</i>
+                        </a>
+                    </div>
+                    <div class="col-auto">
+                        <a asp-action="Edit" asp-controller="Clothings" asp-route-id="@Model.ID">
+                            <i class="material-icons">edit</i>
+                        </a>
+                    </div>
+                    <div class="col=auto">
+                        <a asp-action="Delete" asp-controller="Clothings" asp-route-id="@Model.ID">
+                            <i class="material-icons">delete</i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

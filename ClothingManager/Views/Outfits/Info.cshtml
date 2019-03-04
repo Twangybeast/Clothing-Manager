@@ -1,0 +1,58 @@
+﻿@model ClothingManager.Models.Outfit
+
+@{
+    Layout = null;
+}
+
+<div id="currentModalInfoName">@Html.DisplayFor(o => o.Name)</div>
+<div id="currentModalInfoClothings">
+    @if (Model.ClothingOutfits != null)
+    {
+        int count = 0;
+        foreach (var item in Model.ClothingOutfits)
+        {
+           <div class="col-12">
+                <div class="row">
+                    <div class="col-4 rounded">
+                        <a asp-action="Details" asp-controller="Clothings" asp-route-id="@Model.ID" class="d-block w-100 h-100 btn p-0 m-0">
+                            @await Html.PartialAsync("_ClothingImageOrDefault", item.Clothing)
+                        </a>
+                    </div>
+                    <div class="col">
+                        <div class="row h-100">
+                            <div class="col-auto p-1" style="background-color:@System.Drawing.ColorTranslator.ToHtml(item.Clothing.Color)">
+
+                            </div>
+                            <div class="col">
+                                <div class="row justify-content-around pr-3 pb-2 align-items-end h-100">
+                                    <div class="col-12 align-self-start">
+                                        <a asp-action="Details" asp-controller="Clothings" asp-route-id="@item.Clothing.ID" class="text-dark">
+                                            <h5 class="mt-0 mb-1">@Html.DisplayFor(modelItem => item.Clothing.Name)</h5>
+                                        </a>
+                                    </div>
+                                    <div class="col-2">
+                                        <a class="col-auto remove-outfit-clothing" href="#" data-clothing-id="@item.Clothing.ID">
+                                            <i class="material-icons">remove_circle</i>
+                                        </a>
+                                    </div>
+
+                                    <div class="col-1">
+                                        <button class="btn bmd-btn-icon col-auto outfit-clothing-order-up" @(count == 0 ? "disabled" : "") href="#" data-clothing-id="@item.Clothing.ID">
+                                            <i class="material-icons">arrow_drop_up</i>
+                                        </button>
+                                    </div>
+                                    <div class="col-1"> 
+                                        <button class="btn bmd-btn-icon col-auto outfit-clothing-order-down" @(count == (Model.ClothingOutfits.Count() - 1) ? "disabled" : "") data-clothing-id="@item.Clothing.ID">
+                                            <i class="material-icons">arrow_drop_down</i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            count++;
+        }
+    }
+</div>

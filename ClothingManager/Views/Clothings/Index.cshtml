@@ -1,0 +1,157 @@
+﻿@model IEnumerable<ClothingManager.Models.Clothing>
+
+@{
+    ViewData["Title"] = "Clothing List";
+    var menuItems = new List<Tuple<string, string>> { new Tuple<string, string>("orderByModal", "Order by"),  Tuple.Create("filterModal", "Filter")};
+    ViewData["menu-items"] = menuItems;
+}
+
+<h2>Clothing List</h2>
+
+
+<ul class="list-unstyled">
+    @foreach (var item in Model)
+    {
+        <li class="pb-3">
+            <div class="row">
+                <div class="col-4 rounded">
+                    <a asp-action="Details" asp-route-id="@item.ID" class="d-block w-100 h-100 btn p-0 m-0">
+                        @await Html.PartialAsync("_ClothingImageOrDefault", item)
+                    </a>
+                </div>
+                <div class="col">
+                    <div class="row h-100">
+                        <div class="col-auto p-1" style="background-color:@System.Drawing.ColorTranslator.ToHtml(item.Color)">
+
+                        </div>
+                        <div class="col">
+                            <div class="row justify-content-around pr-3 pb-2 align-items-end h-100">
+                                <div class="col-12 align-self-start">
+                                    <a asp-action="Details" asp-route-id="@item.ID" class="text-dark">
+                                        <h5 class="mt-0 mb-1">@Html.DisplayFor(modelItem => item.Name)</h5>
+                                    </a>
+                                </div>
+                                <div class="col-auto">
+                                    <a class="col-auto add-outfit-clothing" href="#" data-clothing-id="@item.ID">
+                                        <i class="material-icons">add_box</i>
+                                    </a>
+                                </div>
+                                <div class="col-auto">
+                                    <a asp-action="Edit" asp-route-id="@item.ID">
+                                        <i class="material-icons">edit</i>
+                                    </a>
+                                </div>
+                                <div class="col=auto">
+                                    <a asp-action="Delete" asp-route-id="@item.ID">
+                                        <i class="material-icons">delete</i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </li>
+    }
+</ul>
+<button onclick="location.href='@Url.Action("Create")';" type="button" class="btn btn-primary bmd-btn-fab position-fixed" style="right:24px;bottom:25px;">
+    <i class="material-icons">add</i>
+</button>
+
+@section Modals{
+<form asp-action="Index" method="get">
+
+    <div class="modal fade" id="orderByModal" tabindex="-1" role="dialog" aria-labelledby="orderByModalTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="orderByModalTitle">Order by:</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    @foreach (var option in ViewData["order-options"] as IEnumerable<string>)
+                    {
+                        <div class="radio">
+                            <label>
+                                <input type="radio" name="orderOption" id="@option" value="@option" @((string)ViewData["order-option"] == option ? "checked" : "")>
+                                @option
+                            </label>
+                        </div>
+                    }
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <input type="submit" value="Sort" class="btn btn-primary" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="filterModal" tabindex="-1" role="dialog" aria-labelledby="filterModalTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="filterModalTitle">Filter:</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    @await  Html.PartialAsync("_ClothingTagFormPartial", (IEnumerable<TagValue>) ViewData["tags"])
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <input type="submit" value="Filter" class="btn btn-primary" />
+                </div>
+
+            </div>
+        </div>
+    </div>
+</form>
+}
+@*
+    <p>
+        <a asp-action="Create">Create New</a>
+    </p>
+    <table class="table" style="overflow-x:auto;display:block;">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Name)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Argb)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ImagePath)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+        @foreach (var item in Model) {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td style="background-color:@System.Drawing.ColorTranslator.ToHtml(item.Color)">
+                    @item.Argb.ToString("X6")
+                </td>
+                <td>
+                    @if (item.ImagePath != null)
+                    {
+                        <img src="~/uploads/@(item.ImagePath)" alt="@Html.DisplayFor(modelItem => item.Name)" width="200" />
+                    }
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+*@

@@ -1,0 +1,52 @@
+﻿@model ClothingManager.Models.Clothing
+
+@{
+    ViewData["Title"] = "Create";
+    var autocolor = false;
+}
+
+<h2>Create Clothing</h2>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Name" class="bmd-label-floating"></label>
+                <input asp-for="Name" class="form-control" value="" autocomplete="off" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Argb" class="bmd-label-static"></label>
+                <input name="Argb" class="form-control jscolor" value="" />
+            </div>
+            <div class="checkbox">
+                <label>
+                    <input asp-for="@autocolor" class="form-control" checked />
+                    Use color from image?
+                </label>
+            </div>
+            <div class="form-group">
+                <label for="inputImage" class="bmd-label-floating">Image</label>
+                <input name="image" type="file" class="form-control-file" accept="image/*" id="inputImage" />
+            </div>
+            
+            
+            @await Html.PartialAsync("_ClothingTagFormPartial", null, new ViewDataDictionary(ViewData))
+
+
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
